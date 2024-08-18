@@ -30,7 +30,7 @@ class UrlsController < ApplicationController
 
     if safe_redirect?(@url.target_url)
     # brakeman: ignore "Redirect" "Possible unprotected redirect"
-    redirect_to @url.target_url, allow_other_host: true
+    redirect_to @url.target_url
     else
       render plain: "Unsafe redirect detected.", status: :forbidden
     end
