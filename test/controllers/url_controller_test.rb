@@ -1,18 +1,19 @@
 require "test_helper"
 
-class UrlControllerTest < ActionDispatch::IntegrationTest
+class UrlsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
-    get url_new_url
+    get new_url_path
     assert_response :success
   end
 
-  test "should get create" do
-    get url_create_url
+  test "should create url" do
+    post urls_path, params: { url: { target_url: "http://example.com" } }
     assert_response :success
   end
 
-  test "should get show" do
-    get url_show_url
+  test "should show url" do
+    url = Url.create!(target_url: "http://example.com")
+    get url_path(url)
     assert_response :success
   end
 end

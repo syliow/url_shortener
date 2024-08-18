@@ -3,7 +3,7 @@ class UrlsController < ApplicationController
 
   def new
     @url = Url.new
-    render template: 'url/new'
+    render template: "url/new"
   end
 
   def create

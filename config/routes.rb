@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  get "url/new"
-  get "url/create"
-  get "url/show"
+  get "urls/new"
+  post "urls/create"
+  get "urls/show"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -14,8 +14,8 @@ Rails.application.routes.draw do
 
   root "urls#new"
   resources :urls, only: [:new, :create, :show]
-  
-  get '/:short_url', to: 'urls#redirect', as: :shortened
+
+  get "/:short_url", to: "urls#redirect", as: :shortened
 
   # Defines the root path route ("/")
   # root "posts#index"
