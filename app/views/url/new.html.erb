@@ -1,0 +1,6 @@
+<h1>Shorten a new URL</h1>
+<%= form_with model: @url, url: urls_path, local: true do |form| %>
+  <%= form.label :target_url %>
+  <%= form.text_field :target_url %>
+  <%= form.submit "Shorten URL" %>
+<% end %>
