@@ -1,4 +1,4 @@
-class Url < ApplicationRecord  
+class Url < ApplicationRecord
   before_create :generate_short_url
 
   private

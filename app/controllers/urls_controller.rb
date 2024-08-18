@@ -13,10 +13,10 @@ class UrlsController < ApplicationController
     @url = Url.new(url_params)
     @url.title = fetch_title(@url.target_url)
     if @url.save
-      render json: { 
-        short_url: shortened_url(@url.short_url), 
-        target_url: @url.target_url, 
-        title: @url.title 
+      render json: {
+        target_url: @url.target_url,
+        short_url: shortened_url(@url.short_url),
+        title: @url.title
       }, status: :created
     else
       render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity
@@ -25,11 +25,11 @@ class UrlsController < ApplicationController
 
   def show
     @url = Url.find(params[:id])
-    render json: { 
-      id: @url.id, 
-      target_url: @url.target_url, 
-      short_url: @url.short_url, 
-      title: @url.title 
+    render json: {
+      id: @url.id,
+      target_url: @url.target_url,
+      short_url: @url.short_url,
+      title: @url.title
     }
   end
 
