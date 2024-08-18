@@ -1,6 +1,10 @@
 class UrlsController < ApplicationController
   protect_from_forgery except: :create
 
+  rescue_from ActionController::Redirecting::UnsafeRedirectError do
+    redirect_to root_url, alert: "Redirect to an unsafe URL detected."
+  end
+
   def new
     @url = Url.new
     render template: "url/new"
@@ -25,7 +29,6 @@ class UrlsController < ApplicationController
     @url.increment!(:clicks)
 
     if safe_redirect?(@url.target_url)
-      # Redirect to external URL after ensuring it's safe
       redirect_to @url.target_url, allow_other_host: true
     else
       render plain: "Unsafe redirect detected.", status: :forbidden
@@ -38,13 +41,9 @@ class UrlsController < ApplicationController
     params.require(:url).permit(:target_url)
   end
 
-  # Validate that the URL is safe before redirecting
   def safe_redirect?(url)
     uri = URI.parse(url)
-    # Allow only http and https URLs
     return false unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-
-    # Additional checks can be added here, e.g., checking against a whitelist of domains
     true
   rescue URI::InvalidURIError
     false
