@@ -1,4 +1,6 @@
 class UrlsController < ApplicationController
+  protect_from_forgery except: :create
+
   def new
     @url = Url.new
     render template: 'url/new'
@@ -7,23 +9,15 @@ class UrlsController < ApplicationController
   def create
     @url = Url.new(url_params)
     if @url.save
-      respond_to do |format|
-        format.html { redirect_to @url, notice: "Short URL created successfully!" }
-        format.json { render json: @url, status: :created }
-      end
+      render json: { short_url: shortened_url(@url.short_url) }, status: :created
     else
-      respond_to do |format|
-        format.html do
-          flash.now[:alert] = "There was a problem creating the short URL."
-          render :new
-        end
-        format.json { render json: @url.errors, status: :unprocessable_entity }
-      end
+      render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def show
     @url = Url.find(params[:id])
+    render json: { id: @url.id, target_url: @url.target_url, short_url: @url.short_url }
   end
 
   def redirect
