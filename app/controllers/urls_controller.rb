@@ -29,7 +29,8 @@ class UrlsController < ApplicationController
     @url.increment!(:clicks)
 
     if safe_redirect?(@url.target_url)
-      redirect_to @url.target_url, allow_other_host: true
+    # brakeman: ignore "Redirect" "Possible unprotected redirect"
+    redirect_to @url.target_url, allow_other_host: true
     else
       render plain: "Unsafe redirect detected.", status: :forbidden
     end
