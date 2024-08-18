@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "urls/new"
+  post "urls/create"
+  get "urls/show"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -9,8 +12,10 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  resources :urls, only: [:new, :create, :show]
   root "urls#new"
+  resources :urls, only: [ :new, :create, :show ]
+
+  get "/:short_url", to: "urls#redirect", as: :shortened
 
   # Defines the root path route ("/")
   # root "posts#index"
