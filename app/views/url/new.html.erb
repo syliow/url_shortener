@@ -1,6 +1,14 @@
-<h1>Shorten a new URL</h1>
-<%= form_with model: @url, url: urls_path, local: true do |form| %>
-  <%= form.label :target_url %>
-  <%= form.text_field :target_url %>
-  <%= form.submit "Shorten URL" %>
-<% end %>
+<h1 style="text-align: center;">URL Shortener</h1>
+<div style="width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; text-align: center;">
+  <%= form_with model: @url, url: urls_path, local: true do |form| %>
+    <div style="margin-bottom: 10px;">
+      <%= form.label :target_url, "Shorten a long URL" %>
+    </div>
+    <div style="margin-bottom: 10px;">
+      <%= form.text_field :target_url, placeholder: "Enter long link here", style: "width: 100%;" %>
+    </div>
+    <div>
+      <%= form.submit "Shorten URL", style: "width: 100%;" %>
+    </div>
+  <% end %>
+</div>
