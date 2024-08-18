@@ -23,12 +23,24 @@ class UrlsController < ApplicationController
   def redirect
     @url = Url.find_by!(short_url: params[:short_url])
     @url.increment!(:clicks)
-    redirect_to @url.target_url, allow_other_host: true
+    if valid_url?(@url.target_url)
+      redirect_to @url.target_url, allow_other_host: true
+    else
+      render plain: "Unsafe redirect detected.", status: :forbidden
+    end
   end
 
   private
 
   def url_params
     params.require(:url).permit(:target_url)
+  end
+
+  # Ensure the target URL is a valid HTTP/HTTPS URL to prevent unsafe redirects.
+  def valid_url?(url)
+    uri = URI.parse(url)
+    uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+  rescue URI::InvalidURIError
+    false
   end
 end
