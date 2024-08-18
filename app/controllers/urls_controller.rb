@@ -24,6 +24,7 @@ class UrlsController < ApplicationController
     @url = Url.find_by!(short_url: params[:short_url])
     @url.increment!(:clicks)
     if valid_url?(@url.target_url)
+      # Safe redirect after validating the URL
       redirect_to @url.target_url, allow_other_host: true
     else
       render plain: "Unsafe redirect detected.", status: :forbidden

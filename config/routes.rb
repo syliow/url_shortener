@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   root "urls#new"
-  resources :urls, only: [:new, :create, :show]
+  resources :urls, only: [ :new, :create, :show ]
 
   get "/:short_url", to: "urls#redirect", as: :shortened
 
