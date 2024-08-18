@@ -7,9 +7,18 @@ class UrlsController < ApplicationController
   def create
     @url = Url.new(url_params)
     if @url.save
-      redirect_to @url
+      respond_to do |format|
+        format.html { redirect_to @url, notice: "Short URL created successfully!" }
+        format.json { render json: @url, status: :created }
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html do
+          flash.now[:alert] = "There was a problem creating the short URL."
+          render :new
+        end
+        format.json { render json: @url.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -17,11 +26,15 @@ class UrlsController < ApplicationController
     @url = Url.find(params[:id])
   end
 
+  def redirect
+    @url = Url.find_by!(short_url: params[:short_url])
+    @url.increment!(:clicks)
+    redirect_to @url.target_url, allow_other_host: true
+  end
+
   private
 
   def url_params
     params.require(:url).permit(:target_url)
   end
-
-  
 end
