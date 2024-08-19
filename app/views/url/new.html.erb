@@ -1,14 +1,35 @@
-<h1 style="text-align: center;">URL Shortener</h1>
-<div style="width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; text-align: center;">
-  <%= form_with model: @url, url: urls_path, local: true do |form| %>
-    <div style="margin-bottom: 10px;">
-      <%= form.label :target_url, "Shorten a long URL" %>
-    </div>
-    <div style="margin-bottom: 10px;">
-      <%= form.text_field :target_url, placeholder: "Enter long link here", style: "width: 100%;" %>
-    </div>
-    <div>
-      <%= form.submit "Shorten URL", style: "width: 100%;" %>
-    </div>
+<h1 class="text-center text-2xl font-bold mb-4">URL Shortener</h1>
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <%= form_with model: @url, url: urls_path, remote: true, id: "url-form" do |form| %>
+    <% if @url.persisted? %>
+      <!-- Display the shortened URL and other details after submission -->
+      <div class="mb-4">
+        <p class="text-gray-700">Original URL: <span class="font-semibold"><%= @url.target_url %></span></p>
+        <p class="text-gray-700">Shortened URL: <span class="font-semibold"><%= link_to shortened_url(@url.short_url), shortened_url(@url.short_url), class: "text-blue-500 underline" %></span></p>
+        <p class="text-gray-700">Title: <span class="font-semibold"><%= @url.title %></span></p>
+      </div>
+      <div class="mb-4">
+        <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded" onclick="copyToClipboard('<%= shortened_url(@url.short_url) %>')">Copy Shortened URL</button>
+      </div>
+      <div class="mb-4">
+        <%= link_to 'Shorten Another URL', new_url_path, class: "bg-green-500 text-white py-2 px-4 rounded" %>
+      </div>
+    <% else %>
+      <!-- Display the form if the URL is not yet shortened -->
+      <div class="mb-4">
+
+      <% if @url.persisted? %>
+  <h2>URL Shortened Successfully!</h2>
+<% else %>
+  <h2>Form Submission Failed</h2>
+<% end %>
+
+        <%= form.label :target_url, "Shorten a long URL", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%= form.text_field :target_url, placeholder: "Enter long link here", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+      <div>
+        <%= form.submit "Shorten URL", class: "bg-blue-500 text-white py-2 px-4 rounded" %>
+      </div>
+    <% end %>
   <% end %>
 </div>

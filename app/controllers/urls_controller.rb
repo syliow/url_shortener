@@ -12,17 +12,22 @@ class UrlsController < ApplicationController
   def create
     @url = Url.new(url_params)
     @url.title = fetch_title(@url.target_url)
+    
     if @url.save
-      render json: {
-        target_url: @url.target_url,
-        short_url: shortened_url(@url.short_url),
-        title: @url.title
-      }, status: :created
+      Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
+      respond_to do |format|
+        format.html { render 'url/new' }  # Render the 'new.html.erb' in 'app/views/url/'
+        format.json { render json: { target_url: @url.target_url, short_url: shortened_url(@url.short_url), title: @url.title }, status: :created }
+      end
     else
-      render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity
+      Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
+      respond_to do |format|
+        format.html { render 'url/new' }  # Re-render the form with error messages
+        format.json { render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
-
+  
   def show
     @url = Url.find(params[:id])
     render json: {
