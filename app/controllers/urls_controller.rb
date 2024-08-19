@@ -5,7 +5,12 @@ class UrlsController < ApplicationController
   end
 
   def new
-    @url = Url.new
+    if params[:id]
+      @url = Url.find(params[:id])
+      flash[:notice] = "URL successfully created!"
+    else
+      @url = Url.new
+    end
     render template: "url/new"
   end
 
@@ -14,11 +19,8 @@ class UrlsController < ApplicationController
     @url.title = fetch_title(@url.target_url)
     
     if @url.save
-      Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
-      respond_to do |format|
-        format.html { render 'url/new' }  # Render the 'new.html.erb' in 'app/views/url/'
-        format.json { render json: { target_url: @url.target_url, short_url: shortened_url(@url.short_url), title: @url.title }, status: :created }
-      end
+      Rails.logger.info("URL saved with ID: #{@url.id}") 
+      redirect_to new_url_path(id: @url.id)
     else
       Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
       respond_to do |format|
@@ -56,8 +58,7 @@ class UrlsController < ApplicationController
 
   def safe_redirect?(url)
     uri = URI.parse(url)
-    return false unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-    true
+    return uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
   rescue URI::InvalidURIError
     false
   end
