@@ -5,21 +5,28 @@ class UrlsController < ApplicationController
   end
 
   def new
-    @url = Url.new
+    if params[:id]
+      @url = Url.find(params[:id])
+      flash[:notice] = "URL successfully created!"
+    else
+      @url = Url.new
+    end
     render template: "url/new"
   end
 
   def create
     @url = Url.new(url_params)
     @url.title = fetch_title(@url.target_url)
+
     if @url.save
-      render json: {
-        target_url: @url.target_url,
-        short_url: shortened_url(@url.short_url),
-        title: @url.title
-      }, status: :created
+      Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
+      redirect_to new_url_path(id: @url.id)
     else
-      render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity
+      Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
+      respond_to do |format|
+        format.html { render "url/new" }  # Re-render the form with error messages
+        format.json { render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -34,14 +41,23 @@ class UrlsController < ApplicationController
   end
 
   def redirect
-    @url = Url.find_by!(short_url: params[:short_url])
-    @url.increment!(:clicks)
-    if safe_redirect?(@url.target_url)
-      redirect_to @url.target_url
+    if params[:short_url] == "reports"
+      # @reports = Report.all
+      render "reports/index"
     else
-      render plain: "Unsafe redirect detected.", status: :forbidden
+      url = Url.find_by!(short_url: params[:short_url])
+      geolocation = fetch_geolocation(request.remote_ip)
+      UrlClick.create!(
+        url: url,
+        geolocation: "geolocation",
+        clicked_at: Time.current,
+        ip_address: request.remote_ip,
+      )
+
+      redirect_to url.target_url
     end
   end
+end
 
   private
 
@@ -49,10 +65,23 @@ class UrlsController < ApplicationController
     params.require(:url).permit(:target_url)
   end
 
+  def fetch_geolocation(ip_address)
+    # Example using IPinfo
+    response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=5c04319195eaec")
+    if response.status.success?
+      location_data = JSON.parse(response.body.to_s)
+      "#{location_data['city']}, #{location_data['country']}"
+    else
+      "Unknown"
+    end
+  rescue StandardError => e
+    Rails.logger.error "Geolocation fetch failed: #{e.message}"
+    "Unknown"
+  end
+
   def safe_redirect?(url)
     uri = URI.parse(url)
-    return false unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-    true
+    uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
   rescue URI::InvalidURIError
     false
   end
@@ -72,4 +101,3 @@ class UrlsController < ApplicationController
   def shortened_url(short_url)
     "#{request.base_url}/#{short_url}"
   end
-end
