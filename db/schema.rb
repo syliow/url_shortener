@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_18_100913) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_20_164638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "url_clicks", force: :cascade do |t|
+    t.bigint "url_id", null: false
+    t.string "geolocation"
+    t.datetime "clicked_at", null: false
+    t.string "ip_address"
+    t.index ["url_id"], name: "index_url_clicks_on_url_id"
+  end
 
   create_table "urls", force: :cascade do |t|
     t.string "target_url"
@@ -21,4 +29,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_18_100913) do
     t.integer "clicks"
     t.string "title"
   end
+
+  add_foreign_key "url_clicks", "urls"
 end

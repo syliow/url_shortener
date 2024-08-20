@@ -41,11 +41,19 @@ class UrlsController < ApplicationController
   end
 
   def redirect
-    if params[:short_url] == 'reports'
+    if params[:short_url] == "reports"
       # @reports = Report.all
-      render 'reports/index'
+      render "reports/index"
     else
       url = Url.find_by!(short_url: params[:short_url])
+      geolocation = fetch_geolocation(request.remote_ip)
+      UrlClick.create!(
+        url: url,
+        geolocation: "geolocation",
+        clicked_at: Time.current,
+        ip_address: request.remote_ip,
+      )
+
       redirect_to url.target_url
     end
   end
@@ -55,6 +63,20 @@ end
 
   def url_params
     params.require(:url).permit(:target_url)
+  end
+
+  def fetch_geolocation(ip_address)
+    # Example using IPinfo
+    response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=5c04319195eaec")
+    if response.status.success?
+      location_data = JSON.parse(response.body.to_s)
+      "#{location_data['city']}, #{location_data['country']}"
+    else
+      "Unknown"
+    end
+  rescue StandardError => e
+    Rails.logger.error "Geolocation fetch failed: #{e.message}"
+    "Unknown"
   end
 
   def safe_redirect?(url)
@@ -79,4 +101,3 @@ end
   def shortened_url(short_url)
     "#{request.base_url}/#{short_url}"
   end
-

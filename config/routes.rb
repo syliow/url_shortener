@@ -12,11 +12,11 @@ Rails.application.routes.draw do
   root "urls#new"
 
   # Resources for URLs
-  resources :urls, only: [:new, :create, :show]
+  resources :urls, only: [ :new, :create, :show ]
 
   # Custom redirect for shortened URLs
   get "/:short_url", to: "urls#redirect", as: :shortened
 
   # Resources for reports
-  resources :reports, only: [:index]
+  resources :reports, only: [ :index ]
 end
