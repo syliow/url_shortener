@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   def index
-    @clicks = Click.includes(:url).order(created_at: :desc)
+    @clicks = Click.all
+    render :index
   end
 end

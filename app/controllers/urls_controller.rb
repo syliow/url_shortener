@@ -41,14 +41,15 @@ class UrlsController < ApplicationController
   end
 
   def redirect
-    @url = Url.find_by!(short_url: params[:short_url])
-    @url.increment!(:clicks)
-    if safe_redirect?(@url.target_url)
-      redirect_to @url.target_url
+    if params[:short_url] == 'reports'
+      # @reports = Report.all
+      render 'reports/index'
     else
-      render plain: "Unsafe redirect detected.", status: :forbidden
+      url = Url.find_by!(short_url: params[:short_url])
+      redirect_to url.target_url
     end
   end
+end
 
   private
 
@@ -78,4 +79,4 @@ class UrlsController < ApplicationController
   def shortened_url(short_url)
     "#{request.base_url}/#{short_url}"
   end
-end
+
