@@ -1,0 +1,26 @@
+<h1 class="text-center text-2xl font-bold mb-4">Usage Report</h1>
+
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-white">
+    <thead>
+      <tr>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Short URL</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Original URL</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Clicks</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Geolocation</th>
+        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clicks.each do |click| %>
+        <tr>
+          <td class="py-2 px-4 border-b border-gray-200"><%= link_to shortened_url(click.url.short_url), shortened_url(click.url.short_url), class: "text-blue-500 underline" %></td>
+          <td class="py-2 px-4 border-b border-gray-200"><%= click.url.target_url %></td>
+          <td class="py-2 px-4 border-b border-gray-200 text-center"><%= click.url.clicks %></td>
+          <td class="py-2 px-4 border-b border-gray-200 text-center"><%= click.geolocation %></td>
+          <td class="py-2 px-4 border-b border-gray-200 text-center"><%= click.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

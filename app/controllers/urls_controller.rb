@@ -17,19 +17,19 @@ class UrlsController < ApplicationController
   def create
     @url = Url.new(url_params)
     @url.title = fetch_title(@url.target_url)
-    
+
     if @url.save
-      Rails.logger.info("URL saved with ID: #{@url.id}") 
+      Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
       redirect_to new_url_path(id: @url.id)
     else
       Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
       respond_to do |format|
-        format.html { render 'url/new' }  # Re-render the form with error messages
+        format.html { render "url/new" }  # Re-render the form with error messages
         format.json { render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity }
       end
     end
   end
-  
+
   def show
     @url = Url.find(params[:id])
     render json: {
@@ -58,7 +58,7 @@ class UrlsController < ApplicationController
 
   def safe_redirect?(url)
     uri = URI.parse(url)
-    return uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+    uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
   rescue URI::InvalidURIError
     false
   end

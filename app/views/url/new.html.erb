@@ -1,35 +1,56 @@
-<h1 class="text-center text-2xl font-bold mb-4">URL Shortener</h1>
-<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-  <%= form_with model: @url, url: urls_path, remote: true, id: "url-form" do |form| %>
-    <% if @url.persisted? %>
-      <!-- Display the shortened URL and other details after submission -->
-      <div class="mb-4">
-        <p class="text-gray-700">Original URL: <span class="font-semibold"><%= @url.target_url %></span></p>
-        <p class="text-gray-700">Shortened URL: <span class="font-semibold"><%= link_to shortened_url(@url.short_url), shortened_url(@url.short_url), class: "text-blue-500 underline" %></span></p>
-        <p class="text-gray-700">Title: <span class="font-semibold"><%= @url.title %></span></p>
-      </div>
-      <div class="mb-4">
-        <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded" onclick="copyToClipboard('<%= shortened_url(@url.short_url) %>')">Copy Shortened URL</button>
-      </div>
-      <div class="mb-4">
-        <%= link_to 'Shorten Another URL', new_url_path, class: "bg-green-500 text-white py-2 px-4 rounded" %>
-      </div>
-    <% else %>
-      <!-- Display the form if the URL is not yet shortened -->
-      <div class="mb-4">
-
+<div class="flex flex-col justify-center items-center min-h-screen">
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md text-center">
+    <h1 class="text-center text-2xl font-bold mb-4">URL Shortener</h1>
+    <%= form_with model: @url, url: urls_path, remote: true, id: "url-form" do |form| %>
       <% if @url.persisted? %>
-  <h2>URL Shortened Successfully!</h2>
-<% else %>
-  <h2>Form Submission Failed</h2>
-<% end %>
-
-        <%= form.label :target_url, "Shorten a long URL", class: "block text-gray-700 text-sm font-bold mb-2" %>
-        <%= form.text_field :target_url, placeholder: "Enter long link here", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
-      </div>
-      <div>
-        <%= form.submit "Shorten URL", class: "bg-blue-500 text-white py-2 px-4 rounded" %>
-      </div>
+        <!-- Display the shortened URL and other details after submission -->
+        <div class="mb-4">
+          <p class="text-gray-700">Original URL: <span class="font-semibold"><%= @url.target_url %></span></p>
+          <p class="text-gray-700">Shortened URL: <span class="font-semibold"><%= link_to shortened_url(@url.short_url), shortened_url(@url.short_url), class: "text-blue-500 underline" %></span></p>
+          <p class="text-gray-700">Title: <span class="font-semibold"><%= @url.title %></span></p>
+        </div>
+        <div class="mb-4">
+          <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded w-full" onclick="copyToClipboard('<%= shortened_url(@url.short_url) %>')">Copy Shortened URL</button>
+        </div>
+        <div class="mb-4">
+          <%= link_to 'Shorten Another URL', new_url_path, class: "bg-green-500 text-white py-2 px-4 rounded w-full" %>
+        </div>
+      <% else %>
+        <!-- Display the form if the URL is not yet shortened -->
+        <div class="mb-4">
+          <%= form.label :target_url, "Shorten a long URL", class: "block text-gray-700 text-sm font-bold mb-2" %>
+          <%= form.text_field :target_url, placeholder: "Enter long link here", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+        <div>
+          <%= form.submit "Shorten URL", class: "bg-blue-500 text-white py-2 px-4 rounded w-full" %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+    <!-- Add a button for viewing the usage report -->
+    <div class="mt-6">
+      <%= link_to 'View Usage Report', reports_path, class: "bg-green-500 text-white py-2 px-4 rounded w-full" %>
+    </div>
+  </div>
 </div>
+
+
+<script>
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      showToast("Link Copied!");
+    }, function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+
+ function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed top-4 right-4 bg-green-500 text-white py-2 px-4 rounded shadow-md';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+</script>

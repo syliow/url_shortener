@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "reports/index"
   get "urls/new"
   post "urls/create"
   get "urls/show"
@@ -16,6 +17,9 @@ Rails.application.routes.draw do
   resources :urls, only: [ :new, :create, :show ]
 
   get "/:short_url", to: "urls#redirect", as: :shortened
+
+  resources :urls, only: [:new, :create, :show]
+  get 'reports', to: 'reports#index'
 
   # Defines the root path route ("/")
   # root "posts#index"
