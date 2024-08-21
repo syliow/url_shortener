@@ -43,6 +43,7 @@ class UrlsController < ApplicationController
   def redirect
     if params[:short_url] == "reports"
       @clicks = UrlClick.includes(:url).order(clicked_at: :desc)
+      @urls = Url.order(:id)
       render "reports/index"
     else
       url = Url.find_by!(short_url: params[:short_url])

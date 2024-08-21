@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   resources :reports, only: [ :index ]
   get "reports", to: "reports#index"
   get "api/reports", to: "reports#api_index"
+  get "api/all_urls", to: "reports#api_all_urls"
 end
