@@ -16,7 +16,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_20_164638) do
 
   create_table "url_clicks", force: :cascade do |t|
     t.bigint "url_id", null: false
-    t.string "geolocation"
+    t.string "city"
+    t.string "region"
+    t.string "country"
     t.datetime "clicked_at", null: false
     t.string "ip_address"
     t.index ["url_id"], name: "index_url_clicks_on_url_id"
