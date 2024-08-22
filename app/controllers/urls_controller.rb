@@ -47,6 +47,10 @@ class UrlsController < ApplicationController
       render "reports/index"
     else
       url = Url.find_by!(short_url: params[:short_url])
+
+      # Increment the clicks counter
+      url.increment!(:clicks)
+
       # geolocation = fetch_geolocation(request.remote_ip)
       geolocation = fetch_geolocation("60.53.35.117")
       UrlClick.create!(
