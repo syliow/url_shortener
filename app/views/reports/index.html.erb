@@ -1,30 +1,80 @@
-<h1 class="text-center text-2xl font-bold mb-4">Usage Report</h1>
+<!-- Tabs for Summary and Detailed Clicks -->
+<div class="mt-10 max-w-7xl mx-auto">
+  <div x-data="{ activeTab: 'summary' }">
+    <div class="flex justify-center space-x-4 mb-4">
+      <button @click="activeTab = 'summary'" :class="{ 'bg-blue-500 text-white': activeTab === 'summary' }" class="px-4 py-2 border rounded text-gray-700 bg-gray-200 mx-auto">
+        Total URL Clicks
+      </button>
+      <button @click="activeTab = 'detailed'" :class="{ 'bg-blue-500 text-white': activeTab === 'detailed' }" class="px-4 py-2 border rounded text-gray-700 bg-gray-200 mx-auto">
+        User Click Log
+      </button>
+    </div>
 
-<div class="overflow-x-auto">
-  <table class="min-w-full bg-white">
-    <thead>
-      <tr>
-        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Short URL</th>
-        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Original URL</th>
-        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Clicks</th>
-        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Geolocation</th>
-        <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Timestamp</th>
-      </tr>
-    </thead>
-    <%
-=begin%>
- <tbody>
-      <% @clicks.each do |click| %>
-        <tr>
-          <td class="py-2 px-4 border-b border-gray-200"><%= link_to shortened_url(click.url.short_url), shortened_url(click.url.short_url), class: "text-blue-500 underline" %></td>
-          <td class="py-2 px-4 border-b border-gray-200"><%= click.url.target_url %></td>
-          <td class="py-2 px-4 border-b border-gray-200 text-center"><%= click.url.clicks %></td>
-          <td class="py-2 px-4 border-b border-gray-200 text-center"><%= click.geolocation %></td>
-          <td class="py-2 px-4 border-b border-gray-200 text-center"><%= click.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-        </tr>
-      <% end %>
-    </tbody> 
-<%
-=end%>
-  </table>
+    <!-- Summary Click Counts Table -->
+    <div x-show="activeTab === 'summary'" class="overflow-hidden transition-all duration-300">
+      <table class="min-w-full bg-white border-collapse border border-gray-200">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Short URL</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Original URL</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Title Tag</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Total Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @urls.present? %>
+            <% @urls.each do |url| %>
+              <tr class="border-t border-gray-200">
+                <td class="py-2 px-4 text-center"><%= link_to url.short_url, shortened_url(url.short_url), class: "text-blue-500 underline" %></td>
+                <td class="py-2 px-4 text-center"><%= link_to url.target_url, url.target_url, class: "text-blue-500 underline" %></td>
+                <td class="py-2 px-4 text-center"><%= url.title %></td>
+                <td class="py-2 px-4 text-center"><%= url.clicks %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="4" class="py-2 px-4 text-center text-gray-600">No summary records available.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Detailed Click Records Table -->
+    <div x-show="activeTab === 'detailed'" class="overflow-hidden transition-all duration-300">
+      <table class="min-w-full bg-white border-collapse border border-gray-200 mb-8">
+        <thead>
+          <tr>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Short URL</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Original URL</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">City</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Region</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Country</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @clicks.present? %>
+            <% @clicks.each do |click| %>
+              <tr class="border-t border-gray-200">
+                <td class="py-2 px-4 text-center"><%= link_to click.url.short_url, shortened_url(click.url.short_url), class: "text-blue-500 underline" %></td>
+               <td class="py-2 px-4 text-center"><%= link_to click.url.target_url, click.url.target_url, class: "text-blue-500 underline" %></td>
+                <td class="py-2 px-4 text-center"><%= click.city %></td>
+                <td class="py-2 px-4 text-center"><%= click.region %></td>
+                <td class="py-2 px-4 text-center"><%= click.country %></td>
+                <td class="py-2 px-4 text-center"><%= click.clicked_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="py-2 px-4 text-center text-gray-600">No click records available.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
+
+<!-- Add this script at the end of the page or in a separate JS file -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>

@@ -1,3 +1,4 @@
+# config/routes.rb
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -19,4 +20,7 @@ Rails.application.routes.draw do
 
   # Resources for reports
   resources :reports, only: [ :index ]
+  get "reports", to: "reports#index"
+  get "api/reports", to: "reports#api_index"
+  get "api/all_urls", to: "reports#api_all_urls"
 end

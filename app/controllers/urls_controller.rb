@@ -42,14 +42,22 @@ class UrlsController < ApplicationController
 
   def redirect
     if params[:short_url] == "reports"
-      # @reports = Report.all
+      @clicks = UrlClick.includes(:url).order(clicked_at: :desc)
+      @urls = Url.order(:id)
       render "reports/index"
     else
       url = Url.find_by!(short_url: params[:short_url])
-      geolocation = fetch_geolocation(request.remote_ip)
+
+      # Increment the clicks counter
+      url.increment!(:clicks)
+
+      # geolocation = fetch_geolocation(request.remote_ip)
+      geolocation = fetch_geolocation("60.53.35.117")
       UrlClick.create!(
         url: url,
-        geolocation: "geolocation",
+        city: geolocation[:city],
+        region: geolocation[:region],
+        country: geolocation[:country],
         clicked_at: Time.current,
         ip_address: request.remote_ip,
       )
@@ -70,9 +78,17 @@ end
     response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=5c04319195eaec")
     if response.status.success?
       location_data = JSON.parse(response.body.to_s)
-      "#{location_data['city']}, #{location_data['country']}"
+      {
+        city: location_data["city"],
+        region: location_data["region"],
+        country: location_data["country"]
+      }
     else
-      "Unknown"
+      {
+        city: "Unknown",
+        region: "Unknown",
+        country: "Unknown"
+      }
     end
   rescue StandardError => e
     Rails.logger.error "Geolocation fetch failed: #{e.message}"
