@@ -26,13 +26,13 @@
         </div>
       <% end %>
     <% end %>
-    <!-- Add a button for viewing the usage report -->
-    <div class="mt-6">
-      <%= link_to 'View Usage Report', reports_path, class: "bg-green-500 text-white py-2 px-4 rounded w-full" %>
-    </div>
   </div>
 </div>
 
+
+
+<!-- Add this script at the end of the page or in a separate JS file -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>
 
 <script>
   function copyToClipboard(text) {
@@ -43,7 +43,7 @@
     });
   }
 
- function showToast(message) {
+  function showToast(message) {
     const toast = document.createElement('div');
     toast.className = 'fixed top-4 right-4 bg-green-500 text-white py-2 px-4 rounded shadow-md';
     toast.textContent = message;
