@@ -75,7 +75,7 @@ end
 
   def fetch_geolocation(ip_address)
     # Example using IPinfo
-    response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=5c04319195eaec")
+    response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=#{ENV['IPINFO_API_TOKEN']}")
     if response.status.success?
       location_data = JSON.parse(response.body.to_s)
       {
