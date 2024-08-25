@@ -92,6 +92,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Ensure the secret_key_base is set from the environment variable
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
