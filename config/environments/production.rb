@@ -95,6 +95,9 @@ Rails.application.configure do
   # Ensure the secret_key_base is set from the environment variable
   config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
+  # Allow the deployed Railway app hostname
+  config.hosts << "urlshortener-production-6952.up.railway.app"
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
