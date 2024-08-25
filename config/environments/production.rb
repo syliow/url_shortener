@@ -98,6 +98,9 @@ Rails.application.configure do
   # Allow the deployed Railway app hostname
   config.hosts << "urlshortener-shanyi.up.railway.app"
 
+  # Testing
+  config.hosts << /.*railway.app/
+
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
   #   "example.com",     # Allow requests from example.com
