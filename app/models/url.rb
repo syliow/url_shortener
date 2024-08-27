@@ -1,6 +1,12 @@
 class Url < ApplicationRecord
   before_create :generate_short_url
 
+  validates :target_url, presence: true
+
+  def fetch_title
+    self.title = "Title Not Available" if self.title.blank?
+  end
+
   private
 
   def generate_short_url

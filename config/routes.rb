@@ -18,9 +18,11 @@ Rails.application.routes.draw do
   # Custom redirect for shortened URLs
   get "/:short_url", to: "urls#redirect", as: :shortened
 
-  # Resources for reports
-  resources :reports, only: [ :index ]
-  get "reports", to: "reports#index"
-  get "api/reports", to: "reports#api_index"
-  get "api/all_urls", to: "reports#api_all_urls"
+  # Resources for reports with custom API routes
+  resources :reports, only: [ :index ] do
+    collection do
+      get :api_index
+      get :api_all_urls
+    end
+  end
 end

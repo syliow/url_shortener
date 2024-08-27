@@ -7,7 +7,7 @@ class UrlsController < ApplicationController
   def new
     if params[:id]
       @url = Url.find(params[:id])
-      flash[:notice] = "URL successfully created!"
+      flash[:notice] = "✅ URL successfully shortened!"
     else
       @url = Url.new
     end
@@ -20,11 +20,11 @@ class UrlsController < ApplicationController
 
     if @url.save
       Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
-      redirect_to new_url_path(id: @url.id)
+      redirect_to new_url_path(id: @url.id), notice: "URL successfully created!"
     else
       Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
       respond_to do |format|
-        format.html { render "url/new" }  # Re-render the form with error messages
+        format.html { render "url/new", status: :unprocessable_entity }  # Re-render the form with error messages
         format.json { render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity }
       end
     end
@@ -51,8 +51,7 @@ class UrlsController < ApplicationController
       # Increment the clicks counter
       url.increment!(:clicks)
 
-      # geolocation = fetch_geolocation(request.remote_ip)
-      geolocation = fetch_geolocation("60.53.35.117")
+      geolocation = fetch_geolocation(request.remote_ip)
       UrlClick.create!(
         url: url,
         city: geolocation[:city],
@@ -65,7 +64,6 @@ class UrlsController < ApplicationController
       redirect_to url.target_url
     end
   end
-end
 
   private
 
@@ -92,7 +90,7 @@ end
     end
   rescue StandardError => e
     Rails.logger.error "Geolocation fetch failed: #{e.message}"
-    "Unknown"
+    { city: "Unknown", region: "Unknown", country: "Unknown" }
   end
 
   def safe_redirect?(url)
@@ -117,3 +115,4 @@ end
   def shortened_url(short_url)
     "#{request.base_url}/#{short_url}"
   end
+end

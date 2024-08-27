@@ -12,7 +12,7 @@
 
     <!-- Summary Click Counts Table -->
     <div x-show="activeTab === 'summary'" class="overflow-hidden transition-all duration-300">
-      <table class="min-w-full bg-white border-collapse border border-gray-200">
+      <table id="shorten_urls" class="min-w-full bg-white border-collapse border border-gray-200">
         <thead>
           <tr>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Short URL</th>
@@ -42,7 +42,7 @@
 
     <!-- Detailed Click Records Table -->
     <div x-show="activeTab === 'detailed'" class="overflow-hidden transition-all duration-300">
-      <table class="min-w-full bg-white border-collapse border border-gray-200 mb-8">
+      <table id="clicks" class="min-w-full bg-white border-collapse border border-gray-200 mb-8">
         <thead>
           <tr>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Short URL</th>
@@ -58,7 +58,7 @@
             <% @clicks.each do |click| %>
               <tr class="border-t border-gray-200">
                 <td class="py-2 px-4 text-center"><%= link_to click.url.short_url, shortened_url(click.url.short_url), class: "text-blue-500 underline" %></td>
-               <td class="py-2 px-4 text-center"><%= link_to click.url.target_url, click.url.target_url, class: "text-blue-500 underline" %></td>
+                <td class="py-2 px-4 text-center"><%= link_to click.url.target_url, click.url.target_url, class: "text-blue-500 underline" %></td>
                 <td class="py-2 px-4 text-center"><%= click.city %></td>
                 <td class="py-2 px-4 text-center"><%= click.region %></td>
                 <td class="py-2 px-4 text-center"><%= click.country %></td>
