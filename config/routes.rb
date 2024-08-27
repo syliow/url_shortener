@@ -13,13 +13,13 @@ Rails.application.routes.draw do
   root "urls#new"
 
   # Resources for URLs
-  resources :urls, only: [:new, :create, :show]
+  resources :urls, only: [ :new, :create, :show ]
 
   # Custom redirect for shortened URLs
   get "/:short_url", to: "urls#redirect", as: :shortened
 
   # Resources for reports with custom API routes
-  resources :reports, only: [:index] do
+  resources :reports, only: [ :index ] do
     collection do
       get :api_index
       get :api_all_urls
