@@ -85,8 +85,21 @@ Ensure you set the `SECRET_KEY_BASE` environment variable in your `.env` file or
 To run the test , use the following command:
 
 ```sh
-bin/rails test
+rails test
 ```
 
 This will execute all tests in the test directory
+
+## Using Docker Compose
+1. Build and run the Docker containers:
+
+```sh
+docker-compose up -d
+```
+
+2. **Visit the application:**
+
+Open your browser and go to `http://localhost:3000`.
+
+
 

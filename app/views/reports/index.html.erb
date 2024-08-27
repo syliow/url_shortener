@@ -51,6 +51,7 @@
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Region</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Country</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Timestamp</th>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">IP Address</th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +64,7 @@
                 <td class="py-2 px-4 text-center"><%= click.region %></td>
                 <td class="py-2 px-4 text-center"><%= click.country %></td>
                 <td class="py-2 px-4 text-center"><%= click.clicked_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                <td class="py-2 px-4 text-center"><%= click.ip_address %></td>
               </tr>
             <% end %>
           <% else %>
