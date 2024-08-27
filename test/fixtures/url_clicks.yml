@@ -1,0 +1,7 @@
+one:
+  url_id: 1
+  clicked_at: <%= Time.now %>
+
+two:
+  url_id: 2
+  clicked_at: <%= Time.now %>

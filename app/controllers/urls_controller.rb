@@ -20,11 +20,11 @@ class UrlsController < ApplicationController
 
     if @url.save
       Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
-      redirect_to new_url_path(id: @url.id)
+      redirect_to new_url_path(id: @url.id), notice: "URL successfully created!"
     else
       Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
       respond_to do |format|
-        format.html { render "url/new" }  # Re-render the form with error messages
+        format.html { render "url/new", status: :unprocessable_entity }  # Re-render the form with error messages
         format.json { render json: { errors: @url.errors.full_messages }, status: :unprocessable_entity }
       end
     end

@@ -1,11 +1,23 @@
-# test/controllers/urls_controller_test.rb
 require "test_helper"
 
 class UrlsControllerTest < ActionDispatch::IntegrationTest
-  test "should create url" do
-    assert_difference("Url.count") do
-      post urls_path, params: { url: { target_url: "http://example.com", short_url: "exmpl", title: "Example" } }
+  setup do
+    @url = urls(:one)
+  end
+
+  test "should create url when target url is provided" do
+    assert_difference('Url.count') do
+      post urls_url, params: { url: { target_url: "http://example.com" } }
     end
-    assert_redirected_to new_url_path(id: Url.last.id)
+
+    assert_redirected_to new_url_url(id: Url.last.id)
+  end
+
+  test "should not create url with empty target url" do
+    assert_no_difference('Url.count') do
+      post urls_url, params: { url: { target_url: "" } }
+    end
+
+    assert_response :unprocessable_entity
   end
 end

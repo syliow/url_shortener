@@ -1,6 +1,8 @@
 class Url < ApplicationRecord
   before_create :generate_short_url
 
+  validates :target_url, presence: true
+
   private
 
   def generate_short_url
