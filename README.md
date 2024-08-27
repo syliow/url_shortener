@@ -8,7 +8,7 @@ This is a URL shortening service built with Ruby on Rails.
 - [Dependencies](#dependencies)
 - [Configuration](#configuration)
 - [Database Setup](#database-setup)
-- [Running the Test Suite](#running-the-test-suite)
+- [Running the Test](#running-the-test)
 - [Services](#services)
 - [Deployment](#deployment)
 
@@ -19,7 +19,7 @@ Follow these steps to get the application up and running on your local machine.
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/url_shortener.git
+    git clone https://github.com/syliow/url_shortener.git
     cd url_shortener
     ```
 
