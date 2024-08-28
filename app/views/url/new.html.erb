@@ -3,44 +3,40 @@
     <h1 class="text-center text-2xl font-bold mb-4">URL Shortener</h1>
 
     <!-- Flash Messages -->
-    <% if flash[:notice] %>
-      <div class="alert alert-success bg-green-500 text-white py-2 px-4 rounded mb-4">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
-    <% if flash[:alert] %>
-      <div class="alert alert-danger bg-red-500 text-white py-2 px-4 rounded mb-4">
-        <%= flash[:alert] %>
-      </div>
-    <% end %>
-
-    <%= form_with model: @url, url: urls_path, remote: true, id: "url-form" do |form| %>
-      <% if @url.persisted? %>
-        <!-- Display the shortened URL and other details after submission -->
-        <div class="mb-4">
-          <p class="text-gray-700">Original URL: <span class="font-semibold"><%= @url.target_url %></span></p>
-          <p class="text-gray-700">Shortened URL: <span class="font-semibold"><%= link_to shortened_url(@url.short_url), shortened_url(@url.short_url), class: "text-blue-500 underline" %></span></p>
-          <p class="text-gray-700">Title: <span class="font-semibold"><%= @url.title %></span></p>
-        </div>
-        <div class="mb-4">
-          <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded w-full" onclick="copyToClipboard('<%= shortened_url(@url.short_url) %>')">Copy Shortened URL</button>
-        </div>
-        <div class="mb-4">
-          <%= link_to 'Shorten Another URL', new_url_path, class: "bg-green-500 text-white py-2 px-4 rounded w-full" %>
-        </div>
-      <% else %>
-        <!-- Display the form if the URL is not yet shortened -->
-        <div class="mb-4">
-          <%= form.label :target_url, "Shorten a long URL", class: "block text-gray-700 text-sm font-bold mb-2" %>
-          <%= form.text_field :target_url, placeholder: "Enter long link here", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
-        </div>
-        <div>
-          <%= form.submit "Shorten URL", class: "bg-blue-500 text-white py-2 px-4 rounded w-full" %>
-        </div>
-      <% end %>
-    <% end %>
+<% if flash[:notice] %>
+  <div class="alert alert-success bg-green-500 text-white py-2 px-4 rounded mb-4">
+    <%= flash[:notice] %>
   </div>
-</div>
+<% end %>
+<% if flash[:alert] %>
+  <div class="alert alert-danger bg-red-500 text-white py-2 px-4 rounded mb-4">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<%= form_with model: @url, url: urls_path, remote: true, id: "url-form" do |form| %>
+  <% if @url.persisted? %>
+    <!-- Display the shortened URL and other details after submission -->
+    <div class="mb-4 text-left">
+      <p class="text-gray-700">Original URL: <span class="font-semibold"><%= @url.target_url %></span></p>
+      <p class="text-gray-700">Shortened URL: <span class="font-semibold"><%= link_to shortened_url(@url.short_url), shortened_url(@url.short_url), class: "text-blue-500 underline" %></span></p>
+      <p class="text-gray-700">Title: <span class="font-semibold"><%= @url.title %></span></p>
+    </div>
+    <div class="flex space-x-4 mb-4">
+      <button id="copy-button" type="button" class="bg-blue-500 text-white py-2 px-4 rounded w-full hover:bg-blue-700 cursor-pointer" onclick="copyToClipboard('<%= shortened_url(@url.short_url) %>')">Copy Shortened URL</button>
+      <%= link_to 'Shorten Another URL', new_url_path, class: "bg-green-500 text-white py-2 px-4 rounded w-full hover:bg-green-700 cursor-pointer" %>
+    </div>
+  <% else %>
+    <!-- Display the form if the URL is not yet shortened -->
+    <div class="mb-4">
+      <%= form.label :target_url, "Shorten a long URL", class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_field :target_url, placeholder: "Enter long link here", required: true, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+    <div>
+      <%= form.submit "Shorten URL", class: "bg-blue-500 text-white py-2 px-4 rounded w-full hover:bg-blue-700 cursor-pointer" %>
+    </div>
+  <% end %>
+<% end %>
 
 <!-- Add this script at the end of the page or in a separate JS file -->
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2" defer></script>
@@ -48,20 +44,19 @@
 <script>
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(function() {
-      showToast("Link Copied!");
+      console.log("Text copied to clipboard: ", text); // Debugging log
+      indicateCopySuccess();
     }, function(err) {
       console.error('Could not copy text: ', err);
     });
   }
 
-  function showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'fixed top-4 right-4 bg-green-500 text-white py-2 px-4 rounded shadow-md';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-
+  function indicateCopySuccess() {
+    const copyButton = document.getElementById('copy-button');
+    const originalText = copyButton.textContent;
+    copyButton.textContent = 'Copied!';
     setTimeout(() => {
-      toast.remove();
-    }, 3000);
+      copyButton.textContent = originalText;
+    }, 2000); // Revert back after 2 seconds
   }
 </script>

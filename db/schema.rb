@@ -27,9 +27,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_20_164638) do
   create_table "urls", force: :cascade do |t|
     t.string "target_url"
     t.string "short_url"
-    t.string "title"
     t.datetime "created_at", null: false
     t.integer "clicks"
+    t.string "title"
   end
 
   add_foreign_key "url_clicks", "urls"
