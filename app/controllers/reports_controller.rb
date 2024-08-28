@@ -8,8 +8,6 @@ class ReportsController < ApplicationController
     .select("urls.*, COUNT(url_clicks.id) as total_clicks")
     .group("urls.id")
     .order("urls.id ASC")
-
-    # Render the index view (this happens automatically)
   end
 
   def api_index

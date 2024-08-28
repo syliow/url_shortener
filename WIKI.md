@@ -7,8 +7,17 @@ This document provides an overview of the solution for generating short URLs in 
 
 ### Short URL Generation
 - **Method**: Uses `SecureRandom.urlsafe_base64` to generate a URL-safe base64 string.
-- **Length**: Set to 6 characters for brevity and uniqueness.
+- **Length**: Set to 4 characters for brevity and uniqueness.
 - **Implementation**: The `generate_short_url` method in the `Url` model ensures each short URL is unique.
+
+#### Code Snippet
+```ruby
+def generate_short_url
+  loop do
+    self.short_url = SecureRandom.urlsafe_base64(4)
+    break unless Url.exists?(short_url: short_url)
+  end
+end
 
 ### Uniqueness Check
 - **Approach**: A loop generates new short URLs until a unique one is found.
@@ -16,14 +25,9 @@ This document provides an overview of the solution for generating short URLs in 
 
 ### Short URL Length
 - **Constraint**: Limited to a maximum of 15 characters.
-- **Current Implementation**: Uses 6 characters, adjustable if needed.
+- **Current Implementation**: Uses 4 characters, adjustable if needed.
 
 ## Limitations and Workarounds
-
-### Collision Probability
-- **Limitation**: Low but non-zero probability of collisions.
-- **Workaround**: Loop resolves collisions by generating new short URLs.
-- **Future Improvement**: Increase length or use a more sophisticated algorithm.
 
 ### Database Lookup Efficiency
 - **Limitation**: Uniqueness check requires a database lookup.
@@ -32,7 +36,7 @@ This document provides an overview of the solution for generating short URLs in 
 
 ### Short URL Length Constraint
 - **Limitation**: Limits the number of unique URLs.
-- **Workaround**: Current 6-character length, adjustable up to 15 characters.
+- **Workaround**: Current 4-character length, adjustable up to 15 characters.
 - **Future Improvement**: Use a custom encoding scheme or different character set.
 
 ### Security Concerns
@@ -53,16 +57,12 @@ The reports page provides analytics on the usage of short URLs, including total 
 - **Controller**: The `ReportsController` handles the logic for fetching and displaying analytics data.
 - **Views**: The `index.html.erb` file in the `app/views/reports/` directory contains the HTML and embedded Ruby code for rendering the report page.
 
-### Data Collection
-- **Model**: The `ClickLog` model records each click event with attributes such as `timestamp` and `ip_address`.
-- **Database**: Ensure the `click_logs` table is indexed for efficient querying.
-
 ### Limitations and Workarounds
 
 #### Data Volume
 - **Limitation**: Large volumes of click data can slow down report generation.
 - **Workaround**: Implement pagination and indexing.
-- **Future Improvement**: Use data warehousing solutions for large datasets.
+- **Future Improvement**: Optimize database queries and use caching to handle large datasets more efficiently.
 
 #### Real-Time Updates
 - **Limitation**: Reports are not updated in real-time.
@@ -81,3 +81,12 @@ The reports page provides analytics on the usage of short URLs, including total 
 ## Examples
 - **Short URL Generation**: Example of a generated short URL: `https://short.url/abc123`
 - **Reports Page**: Screenshot or description of the reports page layout.
+
+### Additional Sections
+
+## Workflow Summary
+1. **User Input**: User submits a long URL through the form.
+2. **Short URL Generation**: The system generates a unique short URL using a secure random method.
+3. **Database Storage**: The long URL and its corresponding short URL are stored in the database.
+4. **Redirection**: When a user accesses the short URL, they are redirected to the original long URL.
+5. **Analytics**: Click data is logged and displayed on the reports page.

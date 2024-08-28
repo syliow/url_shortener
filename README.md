@@ -36,13 +36,30 @@ Follow these steps to get the application up and running on your local machine.
     rails db:migrate
     ```
 
-4. **Start the Rails server:**
+4. **Create a `secrets.sh` file** in the root directory and add the following environment variables:
+
+    ```sh
+    export POSTGRES_DB=your_database_name
+    export POSTGRES_USER=your_database_user
+    export POSTGRES_PASSWORD=your_database_password
+    export DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB
+    export IPINFO_API_TOKEN=your_ipinfo_api_token
+    export SECRET_KEY_BASE=your_secret_key_base
+    ```
+
+5. **Source the `secrets.sh` file** to set the environment variables:
+
+    ```sh
+    source secrets.sh
+    ```
+
+6. **Start the Rails server:**
 
     ```sh
     rails server
     ```
 
-5. **Visit the application:**
+7. **Visit the application:**
 
     Open your browser and go to `http://localhost:3000`.
 
@@ -53,19 +70,26 @@ This project relies on several dependencies, which are managed via the `Gemfile`
 - **Rails**
 - **PostgreSQL**
 - **Tailwindcss-Rails**
+- **IPinfo** (for geolocation)
 
 For a complete list, see the [Gemfile](Gemfile).
 
 ## Configuration
 
-Configuration settings can be found in the `config` directory. Key files include:
-
-- `config/application.rb`
-- `config/environments/development.rb`
-- `config/environments/test.rb`
-- `config/environments/production.rb`
-
+Configuration settings can be found in the `config` directory
 Ensure you set the `SECRET_KEY_BASE` environment variable in your `.env` file or through your deployment platform.
+
+## Environment Variables
+
+Create a `secrets.sh` file under the root directory and add the following credentials:
+
+```sh
+export POSTGRES_DB=your_database_name
+export POSTGRES_USER=your_database_user
+export POSTGRES_PASSWORD=your_database_password
+export DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB
+export IPINFO_API_TOKEN=your_ipinfo_api_token
+export SECRET_KEY_BASE=your_secret_key_base
 
 ## Database Setup
 
@@ -102,4 +126,5 @@ docker-compose up -d
 Open your browser and go to `http://localhost:3000`.
 
 
-
+Continuous Deployment with Railway
+This project uses [Railway](https://railway.app/) to handle Continuous Deployment (CD).
