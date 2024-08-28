@@ -21,7 +21,7 @@ class UrlsController < ApplicationController
     @url.title = fetch_title(@url.target_url)
 
     if @url.save
-      Rails.logger.info("URL saved with ID: #{@url.id}") 
+      Rails.logger.info("URL saved with ID: #{@url.id}")
       redirect_to new_url_path(id: @url.id), notice: "URL successfully created!"
     else
       Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
