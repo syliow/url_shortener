@@ -5,6 +5,8 @@ class UrlsController < ApplicationController
   end
 
   def new
+    ## Clear flash messages after user has successfully shortened a URL
+    flash.clear
     if params[:id]
       @url = Url.find(params[:id])
       flash[:notice] = "✅ URL successfully shortened!"
