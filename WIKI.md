@@ -18,6 +18,7 @@ def generate_short_url
     break unless Url.exists?(short_url: short_url)
   end
 end
+```
 
 ### Uniqueness Check
 - **Approach**: A loop generates new short URLs until a unique one is found.
