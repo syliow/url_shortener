@@ -50,8 +50,8 @@ Follow these steps to get the application up and running on your local machine.
 
 This project relies on several dependencies, which are managed via the `Gemfile`. Key dependencies include:
 
-- **Rails**: `~> 7.2.0`
-- **PostgreSQL**: `~> 1.1`
+- **Rails**
+- **PostgreSQL**
 - **Tailwindcss-Rails**
 
 For a complete list, see the [Gemfile](Gemfile).
