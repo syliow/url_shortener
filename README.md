@@ -2,8 +2,7 @@
 
 This is a URL shortening service built with Ruby on Rails.
 
-**Deployed Application URL**: [urlshortener-shanyi.up.railway.app](urlshortener-shanyi.up.railway.app)
-
+**Deployed Application URL**: [urlshortener-shanyi.up.railway.app](https://urlshortener-shanyi.up.railway.app)
 
 ## Table of Contents
 
