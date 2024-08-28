@@ -12,7 +12,7 @@ class Url < ApplicationRecord
 
   def generate_short_url
     loop do
-      # Generate a short URL using SecureRandom with a length of 6 characters
+      # Generate a short URL using SecureRandom with a length of 4 characters
       self.short_url = SecureRandom.urlsafe_base64(4)
       # Ensure the generated short URL is unique
       break unless Url.exists?(short_url: short_url)
@@ -23,3 +23,5 @@ class Url < ApplicationRecord
     self.title = "Title Not Available" if self.title.blank?
   end
 end
+
+# Reference: https://ruby-doc.org/stdlib-2.5.1/libdoc/securerandom/rdoc/Random/Formatter.html

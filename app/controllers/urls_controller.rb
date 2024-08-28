@@ -21,7 +21,7 @@ class UrlsController < ApplicationController
     @url.title = fetch_title(@url.target_url)
 
     if @url.save
-      Rails.logger.info("URL saved with ID: #{@url.id}") # Log the ID to confirm persistence
+      Rails.logger.info("URL saved with ID: #{@url.id}") 
       redirect_to new_url_path(id: @url.id), notice: "URL successfully created!"
     else
       Rails.logger.error("URL save failed: #{@url.errors.full_messages.join(", ")}")
@@ -74,7 +74,6 @@ class UrlsController < ApplicationController
   end
 
   def fetch_geolocation(ip_address)
-    # Example using IPinfo
     response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=#{ENV['IPINFO_API_TOKEN']}")
     if response.status.success?
       location_data = JSON.parse(response.body.to_s)
@@ -93,13 +92,6 @@ class UrlsController < ApplicationController
   rescue StandardError => e
     Rails.logger.error "Geolocation fetch failed: #{e.message}"
     { city: "Unknown", region: "Unknown", country: "Unknown" }
-  end
-
-  def safe_redirect?(url)
-    uri = URI.parse(url)
-    uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-  rescue URI::InvalidURIError
-    false
   end
 
   def fetch_title(url)
