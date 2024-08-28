@@ -26,7 +26,7 @@ default: &default
 
 development:
   <<: *default
-  database: url_shortener
+  database: url_shortener_development
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>
@@ -65,6 +65,10 @@ development:
 test:
   <<: *default
   database: url_shortener_test
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: 5432
   
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -90,5 +94,7 @@ test:
 production:
   <<: *default
   database: url_shortener_production
-  username: url_shortener
-  password: <%= ENV["URL_SHORTENER_DATABASE_PASSWORD"] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: 5432
