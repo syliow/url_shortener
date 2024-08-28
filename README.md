@@ -101,5 +101,18 @@ docker-compose up -d
 
 Open your browser and go to `http://localhost:3000`.
 
+## Screenshots
+Homepage
+![image](https://github.com/user-attachments/assets/3f1166de-0da4-40e2-9fc7-0d6ed4dc350a)
+
+Shorten URL
+![image](https://github.com/user-attachments/assets/702d3674-75a2-4d4d-8f4f-7b61850bc569)
+
+Report Page: Total URL Clicks 
+![image](https://github.com/user-attachments/assets/fcd1d987-2a3e-4075-aefb-d831362533d8)
+
+Report Page: User Click logs
+![image](https://github.com/user-attachments/assets/4fce7445-6ad4-4af1-b0ac-3dd81021b5a2)
+
 
 
