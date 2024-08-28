@@ -1,12 +1,12 @@
 <!-- Tabs for Summary and Detailed Clicks -->
 <div class="mt-10 max-w-7xl mx-auto">
   <div x-data="{ activeTab: 'summary' }">
-    <div class="flex justify-center space-x-4 mb-4">
+    <div class="flex justify-start space-x-4 mb-4">
       <button @click="activeTab = 'summary'" :class="{ 'bg-blue-500 text-white': activeTab === 'summary' }" class="px-4 py-2 border rounded text-gray-700 bg-gray-200 mx-auto">
         Total URL Clicks
       </button>
       <button @click="activeTab = 'detailed'" :class="{ 'bg-blue-500 text-white': activeTab === 'detailed' }" class="px-4 py-2 border rounded text-gray-700 bg-gray-200 mx-auto">
-        User Click Log
+        User Click Log (Desc Order)
       </button>
     </div>
 
@@ -15,6 +15,7 @@
       <table id="shorten_urls" class="min-w-full bg-white border-collapse border border-gray-200">
         <thead>
           <tr>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Index</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Short URL</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Original URL</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm uppercase font-bold text-gray-600">Title Tag</th>
@@ -23,8 +24,9 @@
         </thead>
         <tbody>
           <% if @urls.present? %>
-            <% @urls.each do |url| %>
+            <% @urls.each_with_index do |url, index| %>
               <tr class="border-t border-gray-200">
+                <td class="py-2 px-4 text-center"><%= index + 1 %></td>
                 <td class="py-2 px-4 text-center"><%= link_to url.short_url, shortened_url(url.short_url), class: "text-blue-500 underline" %></td>
                 <td class="py-2 px-4 text-center"><%= link_to url.target_url, url.target_url, class: "text-blue-500 underline" %></td>
                 <td class="py-2 px-4 text-center"><%= url.title %></td>
@@ -33,7 +35,7 @@
             <% end %>
           <% else %>
             <tr>
-              <td colspan="4" class="py-2 px-4 text-center text-gray-600">No summary records available.</td>
+              <td colspan="5" class="py-2 px-4 text-center text-gray-600">No summary records available.</td>
             </tr>
           <% end %>
         </tbody>
@@ -45,6 +47,7 @@
       <table id="clicks" class="min-w-full bg-white border-collapse border border-gray-200 mb-8">
         <thead>
           <tr>
+            <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Index</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Short URL</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">Original URL</th>
             <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-sm uppercase font-bold text-gray-600">City</th>
@@ -56,8 +59,9 @@
         </thead>
         <tbody>
           <% if @clicks.present? %>
-            <% @clicks.each do |click| %>
+            <% @clicks.each_with_index do |click, index| %>
               <tr class="border-t border-gray-200">
+                <td class="py-2 px-4 text-center"><%= index + 1 %></td>
                 <td class="py-2 px-4 text-center"><%= link_to click.url.short_url, shortened_url(click.url.short_url), class: "text-blue-500 underline" %></td>
                 <td class="py-2 px-4 text-center"><%= link_to click.url.target_url, click.url.target_url, class: "text-blue-500 underline" %></td>
                 <td class="py-2 px-4 text-center"><%= click.city %></td>
@@ -69,7 +73,7 @@
             <% end %>
           <% else %>
             <tr>
-              <td colspan="7" class="py-2 px-4 text-center text-gray-600">No click records available.</td>
+              <td colspan="8" class="py-2 px-4 text-center text-gray-600">No click records available.</td>
             </tr>
           <% end %>
         </tbody>
