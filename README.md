@@ -8,9 +8,10 @@ This is a URL shortening service built with Ruby on Rails.
 - [Dependencies](#dependencies)
 - [Configuration](#configuration)
 - [Database Setup](#database-setup)
-- [Running the Test](#running-the-test)
-- [Services](#services)
-- [Deployment](#deployment)
+- [Running the Tests](#running-the-tests)
+- [Using Docker Compose](#using-docker-compose)
+- [Screenshots](#screenshots)
+- [Continuous Deployment with Railway](#continuous-deployment-with-railway)
 
 ## Installation
 
@@ -90,6 +91,7 @@ export POSTGRES_PASSWORD=your_database_password
 export DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB
 export IPINFO_API_TOKEN=your_ipinfo_api_token
 export SECRET_KEY_BASE=your_secret_key_base
+```
 
 ## Database Setup
 
@@ -139,5 +141,5 @@ Report Page: User Click logs
 ![image](https://github.com/user-attachments/assets/4fce7445-6ad4-4af1-b0ac-3dd81021b5a2)
 
 
-Continuous Deployment with Railway
+## Continuous Deployment with Railway
 This project uses [Railway](https://railway.app/) to handle Continuous Deployment (CD).
