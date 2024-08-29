@@ -73,9 +73,9 @@ This project relies on several dependencies, which are managed via the `Gemfile`
 - **Rails**
 - **PostgreSQL**
 - **Tailwindcss-Rails**
-- **IPinfo** (for geolocation)
 
-For a complete list, see the [Gemfile](Gemfile).
+## External Services
+[Ipinfo](https://ipinfo.io/): Used for geolocation to determine the city, region, and country of users based on their IP addresses.
 
 ## Configuration
 
