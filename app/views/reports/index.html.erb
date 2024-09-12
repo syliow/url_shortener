@@ -27,8 +27,12 @@
             <% @urls.each_with_index do |url, index| %>
               <tr class="border-t border-gray-200">
                 <td class="py-2 px-4 text-center"><%= index + 1 %></td>
-                <td class="py-2 px-4 text-center"><%= link_to url.short_url, shortened_url(url.short_url), class: "text-blue-500 underline" %></td>
-                <td class="py-2 px-4 text-center"><%= link_to url.target_url, url.target_url, class: "text-blue-500 underline" %></td>
+                <td class="py-2 px-4 text-center">
+                  <div class="truncate max-w-xs overflow-hidden whitespace-nowrap"><%= link_to url.short_url, shortened_url(url.short_url), class: "text-blue-500 underline" %></div>
+                </td>
+                <td class="py-2 px-4 text-center">
+                  <div class="truncate max-w-xs overflow-hidden whitespace-nowrap"><%= link_to url.target_url, url.target_url, class: "text-blue-500 underline" %></div>
+                </td>
                 <td class="py-2 px-4 text-center"><%= url.title %></td>
                 <td class="py-2 px-4 text-center"><%= url.clicks %></td>
               </tr>
@@ -62,8 +66,12 @@
             <% @clicks.each_with_index do |click, index| %>
               <tr class="border-t border-gray-200">
                 <td class="py-2 px-4 text-center"><%= index + 1 %></td>
-                <td class="py-2 px-4 text-center"><%= link_to click.url.short_url, shortened_url(click.url.short_url), class: "text-blue-500 underline" %></td>
-                <td class="py-2 px-4 text-center"><%= link_to click.url.target_url, click.url.target_url, class: "text-blue-500 underline" %></td>
+                <td class="py-2 px-4 text-center">
+                  <div class="truncate max-w-xs overflow-hidden whitespace-nowrap"><%= link_to click.url.short_url, shortened_url(click.url.short_url), class: "text-blue-500 underline" %></div>
+                </td>
+                <td class="py-2 px-4 text-center">
+                  <div class="truncate max-w-xs overflow-hidden whitespace-nowrap"><%= link_to click.url.target_url, click.url.target_url, class: "text-blue-500 underline" %></div>
+                </td>
                 <td class="py-2 px-4 text-center"><%= click.city %></td>
                 <td class="py-2 px-4 text-center"><%= click.region %></td>
                 <td class="py-2 px-4 text-center"><%= click.country %></td>
