@@ -5,10 +5,8 @@ class UrlsController < ApplicationController
   end
 
   def new
-    # Source of params
     # Form Data: When a user submits a form, the form data is sent to the server as part of the request.
-    # Rails collects this data and makes it available through the params object.
-    # Query String Parameters: Parameters included in the URL query string (e.g., ?id=1) are also accessible via params.
+
     ## Clear flash messages after user has successfully shortened a URL
     flash.clear
     if params[:id]
