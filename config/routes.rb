@@ -13,9 +13,13 @@ Rails.application.routes.draw do
   root "urls#new"
 
   # Resources for URLs
+  # GET /urls/new – The new action in the UrlsController to render a form for creating a new URL.
+  # POST /urls – The create action in the UrlsController to handle form submission and create the short URL.
+  # GET /urls/:id – The show action in the UrlsController to display the details of a specific shortened URL.
   resources :urls, only: [ :new, :create, :show ]
 
   # Custom redirect for shortened URLs
+  # Why custom? This is specifically for redirecting shortened URLs.
   get "/:short_url", to: "urls#redirect", as: :shortened
 
   # Resources for reports with custom API routes
@@ -26,3 +30,6 @@ Rails.application.routes.draw do
     end
   end
 end
+
+# get :api_index - This creates a route that maps to the api_index action in the ReportsController. The resulting route is GET /reports/api_index.
+# get :api_all_urls - This creates a route that maps to the api_all_urls action in the ReportsController. The resulting route is GET /reports/api_all_urls.

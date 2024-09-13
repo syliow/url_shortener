@@ -1,4 +1,8 @@
 class ReportsController < ApplicationController
+  # Eg: http://localhost:3000/reports/api_all_urls
+  # Eg: http://localhost:3000/reports/api_index
+
+  # Get the required data when user visits the /reports page
   def index
     # Get all the UrlClicks along with their associated Urls for the detailed table
     @clicks = UrlClick.includes(:url).order(clicked_at: :desc)

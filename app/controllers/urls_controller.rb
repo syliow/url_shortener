@@ -5,6 +5,10 @@ class UrlsController < ApplicationController
   end
 
   def new
+    # Source of params
+    # Form Data: When a user submits a form, the form data is sent to the server as part of the request.
+    # Rails collects this data and makes it available through the params object.
+    # Query String Parameters: Parameters included in the URL query string (e.g., ?id=1) are also accessible via params.
     ## Clear flash messages after user has successfully shortened a URL
     flash.clear
     if params[:id]
@@ -13,6 +17,8 @@ class UrlsController < ApplicationController
     else
       @url = Url.new
     end
+    # This line renders the new template located at app/views/url/new.html.erb.
+    # This template will display the form for creating a new URL.
     render template: "url/new"
   end
 
@@ -73,6 +79,7 @@ class UrlsController < ApplicationController
     params.require(:url).permit(:target_url)
   end
 
+  # Why ipinfo? Free plan with highest quota for free tier.
   def fetch_geolocation(ip_address)
     response = HTTP.get("https://ipinfo.io/#{ip_address}/json?token=#{ENV['IPINFO_API_TOKEN']}")
     if response.status.success?
@@ -110,3 +117,9 @@ class UrlsController < ApplicationController
     "#{request.base_url}/#{short_url}"
   end
 end
+
+
+# show: Finds a URL by id and redirects to its target_url.
+# redirect: Finds a URL by short_url and redirects to its target_url, or redirects to the root URL with an alert if not found.
+# url_params: Defines strong parameters for URL creation and updates.
+# fetch_geolocation: Fetches geolocation data for an IP address using the IP-API service.

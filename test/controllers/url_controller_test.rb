@@ -2,7 +2,7 @@ require "test_helper"
 
 class UrlsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @url = urls(:one) # Set up a URL fixture for use in tests
+    @url = urls(:one) # Set up a URL fixture for use in tests (file: test/fixtures/urls.yml)
   end
 
   # Test that a URL is created when a valid target_url is provided
