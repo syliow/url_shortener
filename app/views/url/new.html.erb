@@ -14,6 +14,7 @@
       </div>
     <% end %>
 
+    <!-- remote: true = async submit, no reload -->
     <%= form_with model: @url, url: urls_path, remote: true, id: "url-form" do |form| %>
       <% if @url.persisted? %>
         <!-- Display the shortened URL and other details after submission -->
