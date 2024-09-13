@@ -5,10 +5,10 @@ class UrlsController < ApplicationController
   end
 
   def new
-# Source of params
-# Form Data: When a user submits a form, the form data is sent to the server as part of the request.
-# Rails collects this data and makes it available through the params object.
-# Query String Parameters: Parameters included in the URL query string (e.g., ?id=1) are also accessible via params.
+    # Source of params
+    # Form Data: When a user submits a form, the form data is sent to the server as part of the request.
+    # Rails collects this data and makes it available through the params object.
+    # Query String Parameters: Parameters included in the URL query string (e.g., ?id=1) are also accessible via params.
     ## Clear flash messages after user has successfully shortened a URL
     flash.clear
     if params[:id]
@@ -17,7 +17,7 @@ class UrlsController < ApplicationController
     else
       @url = Url.new
     end
-    # This line renders the new template located at app/views/url/new.html.erb. 
+    # This line renders the new template located at app/views/url/new.html.erb.
     # This template will display the form for creating a new URL.
     render template: "url/new"
   end

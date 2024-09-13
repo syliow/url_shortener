@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-
   # Eg: http://localhost:3000/reports/api_all_urls
   # Eg: http://localhost:3000/reports/api_index
 
